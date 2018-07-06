@@ -1,0 +1,253 @@
+# i3 config file (v4)
+
+set $mod Mod4
+font pango:System San Francisco Display 6
+set $term urxvt
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+Shift+a kill
+
+# border on, see where focus is
+bindsym $mod+x exec ~/.config/flash.sh
+
+# change focus
+bindsym $mod+h exec ~/.config/flash.sh; focus left
+bindsym $mod+j exec ~/.config/flash.sh; focus down
+bindsym $mod+k exec ~/.config/flash.sh; focus up
+bindsym $mod+l exec ~/.config/flash.sh; focus right
+
+# move focused window
+bindsym $mod+Shift+h exec ~/.config/flash.sh; move left
+bindsym $mod+Shift+j exec ~/.config/flash.sh; move down
+bindsym $mod+Shift+k exec ~/.config/flash.sh; move up
+bindsym $mod+Shift+l exec ~/.config/flash.sh; move right
+
+# split in horizontal orientation
+bindsym $mod+Shift+v split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+z layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+#bindsym $mod+p focus parent
+
+# focus the child container
+#bindsym $mod+c focus child
+
+# workspaces names
+set $1 "1"
+set $2 "2"
+set $3 "3"
+set $4 "4"
+set $5 "5"
+set $6 "6"
+set $7 "7"
+set $8 "8"
+set $9 "9"
+set $10 "10"
+
+# switch to workspace
+bindsym $mod+ampersand workspace $1; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+eacute workspace $2; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+quotedbl workspace $3; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+apostrophe workspace $4; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+parenleft workspace $5; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+minus workspace $6; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+egrave workspace $7; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+underscore workspace $8; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+ccedilla workspace $9; exec $feh ~/.config/i3/wal.jpg
+bindsym $mod+agrave workspace $10; exec $feh ~/.config/i3/black.jpg
+# move focused container to workspace
+bindsym $mod+Shift+ampersand move container to workspace $1
+bindsym $mod+Shift+eacute move container to workspace $2
+bindsym $mod+Shift+quotedbl move container to workspace $3
+bindsym $mod+Shift+apostrophe move container to workspace $4
+bindsym $mod+Shift+5 move container to workspace $5
+bindsym $mod+Shift+minus move container to workspace $6
+bindsym $mod+Shift+egrave move container to workspace $7
+bindsym $mod+Shift+underscore move container to workspace $8
+bindsym $mod+Shift+ccedilla move container to workspace $9
+bindsym $mod+Shift+agrave move container to workspace $10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+set $step 1
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym h resize shrink width $step px or $step ppt
+        bindsym j resize grow height $step px or $step ppt
+        bindsym k resize shrink height $step px or $step ppt
+        bindsym l resize grow width $step px or $step ppt
+
+        bindsym Left resize shrink width $step px or $step ppt
+        bindsym Down resize grow height $step px or $step ppt
+        bindsym Up resize shrink height $step px or $step ppt
+        bindsym Right resize grow width $step px or $step ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Colors
+set $bg-color            #ffffff
+set $inactive-bg-color   #ffffff
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+bar {
+        #status_command i3status
+        status_command i3blocks -c /home/thomas/.config/i3/i3blocks.conf
+        tray_output primary
+}
+
+# Lock
+bindsym $mod+shift+x exec lock -p -- scrot -z
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+# Background
+set $feh --no-startup-id feh --bg-scale
+exec_always $feh ~/.config/i3/wal.jpg
+
+# Application assignment to workspaces
+assign [class="qutebrowser"] $1
+assign [class="Atom"] $3
+assign [class="Thunar"] $9
+assign [class="jetbrains-clion"] $3
+# For Jupyter
+#assign [class="Firefox"] $4
+
+#assign [class="Zathura"] $5
+
+# Open apps and scripts
+exec ~/qutebrowser/.venv/bin/python3 -m qutebrowser
+exec --no-startup-id i3-msg 'workspace $2; exec gnome-terminal'
+exec --no-startup-id conky -d -c ~/.config/conky.conf
+exec --no-startup-id i3-msg 'workspace $2; exec gnome-terminal -e ranger'
+exec --no-startup-id redshift -rb 0.9
+exec xautolock -detectsleep -time 1 -locker "lock -p --scrot -z"
+exec --no-startup-id ~/.config/battery-notif -n -t 60 -L 15
+exec --no-startup-id compton -f
+
+# Fun
+for_window [instance="neofetch"] floating enable
+for_window [instance="neofetch"] resize set 480 220
+for_window [instance="neofetch"] move position center
+
+for_window [instance="ghosts"] floating enable
+for_window [instance="ghosts"] resize set 500 150
+for_window [instance="ghosts"] move absolute position 480 px 20 px
+
+for_window [instance="panes"] floating enable
+for_window [instance="panes"] resize set 280 80
+for_window [instance="panes"] move absolute position 40 px 650 px
+
+for_window [instance="invaders"] floating enable
+for_window [instance="invaders"] resize set 500 250
+for_window [instance="invaders"] move absolute position 540 px 520 px
+
+for_window [instance="bonsai"] floating enable
+for_window [instance="bonsai"] resize set 200 180
+for_window [instance="bonsai"] move absolute position 40 px 300 px
+
+for_window [instance="colourblocks"] floating enable
+for_window [instance="colourblocks"] resize set 500 60
+for_window [instance="colourblocks"] move absolute position 40 px 580 px
+
+for_window [instance="tty-clock"] floating enable
+for_window [instance="tty-clock"] resize set 420 120
+for_window [instance="tty-clock"] move absolute position 40 px 20 px
+
+bindsym $mod+q exec ~/.fun; exec $feh ~/.config/i3/black.jpg 
+bindsym $mod+Shift+q focus parent, kill
+
+# Wego
+#exec --no-startup-id i3-msg 'workspace $9;exec gnome-terminal -e "~/.script_to_bash \"wego\""'
+
+# Borders
+for_window [class=".*"] border none
+
+# Rofi menu
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "68" -bw 0 -bc "#2f343f" -bg "#2f343f" -fg "$text-color" -hlbg "#2f343f" -hlfg "#9575cd" -font "System San Francisco Display 14"
+
+# QubeBrowser
+#bindsym $mod+q exec ~/qutebrowser/.venv/bin/python3 -m qutebrowser
+
+# For battery notif
+for_window [title="Battery Warning"] sticky enable
+
+# Scratchpad
+#exec --no-startup-id $term -name dropdown
+
+#for_window [instance="dropdown"] floating enable
+#for_window [instance="dropdown"] resize set 500 400
+#for_window [instance="dropdown"] move scratchpad
+ 
+#bindsym $mod+u [instance="dropdown"] scratchpad show; [instance="dropdown"] move position center
+
+exec --no-startup-id $term -name dropdown_python -e python3
+
+for_window [instance="dropdown_python"] floating enable
+for_window [instance="dropdown_python"] resize set 750 500
+for_window [instance="dropdown_python"] move scratchpad
+for_window [instance="dropdown_python"] border pixel 1
+ 
+bindsym $mod+y [instance="dropdown_python"] scratchpad show; [instance="dropdown_python"] move position center
+
+# Launch Cava
+bindsym $mod+c exec gnome-terminal -e cava
+
+# NCMPCPP shortcuts
+bindsym $mod+n exec gnome-terminal -e ncmpcpp
+
+# Ranger
+bindsym $mod+w exec gnome-terminal -e ranger
+
+# C++ projets
+for_window[class="sfml_.*"] floating enable
+for_window[class="sfml_.*"] border pixel 1
+
+# For wifi in i3status
+exec --no-startup-id nm-applet
