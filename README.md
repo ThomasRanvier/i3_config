@@ -1,1 +1,3 @@
-# i3_config
+# i3 config
+
+My i3 configuration
