@@ -131,7 +131,7 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 
 bar {
         #status_command i3status
-        status_command i3blocks -c /home/thomas/.config/i3/i3blocks.conf
+        status_command i3blocks -c /home/thomas/.config/i3blocks/i3blocks.conf
         tray_output primary
 }
 
