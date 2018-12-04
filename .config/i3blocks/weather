@@ -3,7 +3,6 @@
 #curl wttr.in > ~/.weathertest
 #curl -X GET https://goweather.herokuapp.com/weather/Buffalo > ~/.weatherreport
 /home/thomas/.go/bin/wego -f json 1 > /home/thomas/.weatherreport
-#python /home/thomas/.config/i3blocks/weather.py
 
 description=$(cat /home/thomas/.weatherreport | sed -n 5p | cut -d '"' -f 4)
 temp=$(cat /home/thomas/.weatherreport | sed -n 6p | cut -d '"' -f 3 | sed -e 's/[:| |,]//g')
