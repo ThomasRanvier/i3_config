@@ -1,0 +1,3 @@
+#!/bin/sh
+
+paste /sys/class/backlight/intel_backlight/actual_brightness /sys/class/backlight/intel_backlight/max_brightness | awk '{print $1 "/" $2}'

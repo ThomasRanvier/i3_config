@@ -1,0 +1,9 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+    1) notify-send "Biggest use
+
+$(ps axch -o cmd,%mem --sort=-%mem | head)";;
+esac
+
+free -h | awk '/^Mem:/ {print $3 "/" $2}' | sed s/,/./g

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#curl wttr.in > ~/.weathertest
+#curl -X GET https://goweather.herokuapp.com/weather/Buffalo > ~/.weatherreport
+/home/thomas/.go/bin/wego -f json 1 > /home/thomas/.weatherreport
+#python /home/thomas/.config/i3blocks/weather.py
+
+description=$(cat /home/thomas/.weatherreport | sed -n 5p | cut -d '"' -f 4)
+temp=$(cat /home/thomas/.weatherreport | sed -n 6p | cut -d '"' -f 3 | sed -e 's/[:| |,]//g')
+feelslike=$(cat /home/thomas/.weatherreport | sed -n 7p | cut -d '"' -f 3 | sed -e 's/[:| |,]//g')
+chancerain=$(cat /home/thomas/.weatherreport | sed -n 8p | cut -d '"' -f 3 | sed -e 's/[:| |,]//g')
+dist=$(expr $(cat /home/thomas/.weatherreport | sed -n 10p | cut -d '"' -f 3 | sed -e 's/[:| |,]//g') / 1000)
+wind=$(cat /home/thomas/.weatherreport | sed -n 11p | cut -d '"' -f 3 | sed -e 's/[:| |,]//g')
+humidity=$(cat /home/thomas/.weatherreport | sed -n 14p | cut -d '"' -f 3 | sed -e 's/[:| |,]//g')
+
+echo $description', '$temp'°C, feels: '$feelslike'°C, rain: '$chancerain'%, visible: '$dist'km, '$wind'km/h, humidity: '$humidity
+#echo $(cat ~/.weatherreport | cut -d '"' -f 12)', '$(cat ~/.weatherreport | cut -d '"' -f 4)', '$(cat ~/.weatherreport | cut -d '"' -f 8)
