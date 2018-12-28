@@ -88,3 +88,18 @@ autocmd FileType tex inoremap ,whi \While{}<Enter>\EndWhile<Esc>k$i
 autocmd FileType tex inoremap ,for \For{}<Enter>\EndFor<Esc>k$i
 autocmd FileType tex inoremap ,ret \State \textbf{return} 
 autocmd FileType tex inoremap ,tab \begin{center}<Enter>\begin{tabular}{}<Enter>\\<Enter>\end{tabular}<Enter>\end{center}<Esc>3k$i
+autocmd FileType tex inoremap ,à \`a
+autocmd FileType tex inoremap ,â \^a
+autocmd FileType tex inoremap ,é \'e
+autocmd FileType tex inoremap ,è \`e
+autocmd FileType tex inoremap ,ê \^e
+autocmd FileType tex inoremap ,ë \"e
+autocmd FileType tex inoremap ,ò \`o
+autocmd FileType tex inoremap ,ô \^o
+autocmd FileType tex inoremap ,ö \"o
+autocmd FileType tex inoremap ,ù \`u
+autocmd FileType tex inoremap ,û \^u
+autocmd FileType tex inoremap ,ü \"u
+
+" Fix for .tex files highlighting and co
+let g:tex_flavor = "latex"
