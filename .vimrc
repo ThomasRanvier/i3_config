@@ -75,6 +75,7 @@ autocmd FileType tex inoremap ,up \usepackage{}<Esc>i
 autocmd FileType tex inoremap ,bf \textbf{}<Esc>T{i
 autocmd FileType tex inoremap ,it \textit{}<Esc>T{i
 autocmd FileType tex inoremap ,fig \FloatBarrier<Enter>\begin{figure}<Enter>\centering\includegraphics[width=\textwidth]{}<Enter>\label{fig:}<Enter>\caption{}<Enter>\end{figure}<Enter>\FloatBarrier<Esc>4kf}i
+autocmd FileType tex inoremap ,2fig \FloatBarrier<Enter>\begin{figure}<Enter>\centering<Enter>\begin{subfigure}{.5\textwidth}<Enter>\centering<Enter>\includegraphics[width=\linewidth]{}<Enter>\caption{}<Enter>\label{fig:}<Enter>\end{subfigure}%<Enter>\begin{subfigure}{.5\textwidth}<Enter>\centering<Enter>\includegraphics[width=\linewidth]{}<Enter>\caption{}<Enter>\label{fig:}<Enter>\end{subfigure}<Enter>\caption{}<Enter>\label{fig:}<Enter>\end{figure}<Enter>\FloatBarrier<Esc>13k$i
 autocmd FileType tex inoremap ,toc \addcontentsline{toc}{}{}<Esc>2hi
 autocmd FileType tex inoremap ,ali \begin{align*}<Enter>//<Enter>\end{align*}<Esc>k$hi
 autocmd FileType tex inoremap ,alg \FloatBarrier<Enter>\begin{algorithm}<Enter>\caption{}<Enter>\label{}<Enter>\begin{algorithmic}[1]<Enter>\end{algorithmic}<Enter>\end{algorithm}<Enter>\FloatBarrier<Esc>5kf}i
@@ -103,3 +104,52 @@ autocmd FileType tex inoremap ,ü \"u
 
 " Fix for .tex files highlighting and co
 let g:tex_flavor = "latex"
+
+" Function for PyDoc... Hurts my own eyes
+function PyDoc()
+    let argcount = 0
+    redir => argcount
+    execute line('.').",".line('.')."s/,//gn"
+    redir end
+    let argcount = split(argcount)[0]
+    normal o"""
+    let linenostart = line('.')
+    normal o"""
+    normal 2kyyjp3dw$vhx
+    let line = getline('.')
+    echo split(line, ', ')
+    normal ddk
+    let indentbackcount = 1
+    for arg in split(line, ', ')
+        let arg_clean = split(arg)
+        if arg_clean[0] != "self"
+            execute "normal o:param ".arg_clean[0].":"
+            execute "normal o:type ".arg_clean[0].":"
+        else
+            let indentbackcount = 2
+        endif
+    endfor
+    let linenoend = line('.')
+    while line('.') != linenostart
+        normal k
+    endwhile
+    normal jV
+    while line('.') != linenoend
+        normal j
+    endwhile
+    normal <
+    let maxindentcount = 2 * (argcount + 1)
+    for i in range(maxindentcount)
+        normal .
+    endfor
+    normal V
+    while line('.') != linenoend
+        normal j
+    endwhile
+    normal >
+    if indentbackcount == 2
+        normal .
+    endif
+    normal O
+endfunction
+map <C-p> :call PyDoc()<Enter><Enter>
